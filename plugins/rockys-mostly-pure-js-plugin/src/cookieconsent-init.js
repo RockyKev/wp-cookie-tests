@@ -15,7 +15,7 @@ cc.run({
     // force_consent: false,                   // default: false
     // hide_from_bots: false,                  // default: false
     // remove_cookie_tables: false             // default: false
-    // cookie_name: 'cc_cookie',               // default: 'cc_cookie'
+    cookie_name: 'rks_swag_cc_cookie',               // default: 'cc_cookie'
     // cookie_expiration: 182,                 // default: 182 (days)
     // cookie_necessary_only_expiration: 182   // default: disabled
     // cookie_domain: location.hostname,       // default: current domain
@@ -36,11 +36,15 @@ cc.run({
         // ...
     },
 
+    // TODO: For ACF, you'll pop that data into the localize_script, and have it get modified
+    // https://developer.wordpress.org/reference/functions/wp_localize_script/
+
     languages: {
         'en': {
             consent_modal: {
                 title: 'We use cookies!',
                 description: 'Hi, this website uses essential cookies to ensure its proper operation and tracking cookies to understand how you interact with it. The latter will be set only after consent. <button type="button" data-cc="c-settings" class="cc-link">Let me choose</button>',
+                // description: 'Hi, this website uses essential cookies to ensure its proper operation and tracking cookies to understand how you interact with it. The latter will be set only after consent.',
                 primary_btn: {
                     text: 'Accept all',
                     role: 'accept_all'              // 'accept_selected' or 'accept_all'
@@ -87,7 +91,7 @@ cc.run({
                                 col1: '^_ga',       // match all cookies starting with "_ga"
                                 col2: 'google.com',
                                 col3: '2 years',
-                                col4: 'description ...',
+                                col4: 'Google Analytics Tracking',
                                 is_regex: true
                             },
                             {
@@ -95,7 +99,19 @@ cc.run({
                                 col2: 'google.com',
                                 col3: '1 day',
                                 col4: 'description ...',
-                            }
+                            },
+                            {
+                                col1: '_clck',
+                                col2: 'getclicky.com',
+                                col3: '2 years',
+                                col4: 'description ...',
+                            },
+                            {
+                                col1: '_jsuid',
+                                col2: 'getclicky.com',
+                                col3: '2 years',
+                                col4: 'description ...',
+                            },                            
                         ]
                     }, {
                         title: 'Advertisement and Targeting cookies',
@@ -104,7 +120,36 @@ cc.run({
                             value: 'targeting',
                             enabled: false,
                             readonly: false
-                        }
+                        },
+                        cookie_table: [             // list of all expected cookies
+                        {
+                            col1: 'MUID',      
+                            col2: 'clarity.ms',
+                            col3: '2 years',
+                            col4: 'Microsoft',
+                        },
+                        {
+                            col1: 'CLID',      
+                            col2: 'clarity.ms',
+                            col3: '2 years',
+                            col4: 'Microsoft',
+                        },
+                        {
+                            col1: '_clsk',      
+                            col2: 'clarity.ms',
+                            col3: '2 years',
+                            col4: 'Microsoft',
+                        },
+
+
+                        
+                        {
+                            col1: 'custom_RK_cookie',      
+                            col2: 'http://cookieplugintest.local/',
+                            col3: '2 years',
+                            col4: 'RK test cookie',
+                        },
+                    ]
                     }, {
                         title: 'More information',
                         description: 'For any queries in relation to our policy on cookies and your choices, please <a class="cc-link" href="#yourcontactpage">contact us</a>.',
