@@ -77,7 +77,6 @@
 
 
 <?php echo "<p>Added Clarity via Microsoft</p>"; ?>
-<!-- TODO: Don't really know what cookies this makes --> 
 <!-- <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
