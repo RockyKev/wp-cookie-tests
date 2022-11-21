@@ -3,46 +3,37 @@
  * Main file for WordPress.
  *
  * @wordpress-plugin
- * Plugin Name: 	Rocky's Mostly Pure JS plugin
+ * Plugin Name: 	Rocky's Mostly Pure JS Cookie Plugin
  * Plugin URI:		http://cookieplugintest.local/
- * Description: 	
- * Author:          devowl.io
- * Author URI:		https://devowl.io
- * Version: 		3.4.2
- * Text Domain:		real-cookie-banner
+ * Description: 	Broh Open-source Orestbida's code <a href="https://github.com/orestbida/cookieconsent">https://github.com/orestbida/cookieconsent</a>
+ * Author:          Rockyk
+ * Author URI:		heyitsrocky.com
+ * Version: 		0.1
+ * Text Domain:		rocky-mostly-pure-js-cookie
  * Domain Path:		/languages
  */
 
-defined('ABSPATH') or die('No script kiddies please!'); // Avoid direct file request
 
-/**
- * Plugin constants. This file is procedural coding style for initialization of
- * the plugin core and definition of plugin configuration.
- */
-if (defined('RCB_PATH')) {
-    require_once path_join(dirname(__FILE__), 'inc/base/others/fallback-already.php');
-    return;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
 }
-define('RCB_FILE', __FILE__);
-define('RCB_PATH', dirname(RCB_FILE));
-define('RCB_ROOT_SLUG', 'devowl-wp');
-define('RCB_SLUG', basename(RCB_PATH));
-define('RCB_INC', trailingslashit(path_join(RCB_PATH, 'inc')));
-define('RCB_MIN_PHP', '7.2.0'); // Minimum of PHP 5.3 required for autoloading and namespacing
-define('RCB_MIN_WP', '5.2.0'); // Minimum of WordPress 5.0 required
-define('RCB_NS', 'DevOwl\\RealCookieBanner');
-define('RCB_DB_PREFIX', 'rcb'); // The table name prefix wp_{prefix}
-define('RCB_OPT_PREFIX', 'rcb'); // The option name prefix in wp_options
-define('RCB_SLUG_CAMELCASE', lcfirst(str_replace('-', '', ucwords(RCB_SLUG, '-'))));
-//define('RCB_TD', ''); This constant is defined in the core class. Use this constant in all your __() methods
-//define('RCB_VERSION', ''); This constant is defined in the core class
-//define('RCB_DEBUG', true); This constant should be defined in wp-config.php to enable the Base#debug() method
 
-define('RCB_SLUG_PRO', 'real-cookie-banner-pro');
-define('RCB_SLUG_LITE', 'real-cookie-banner');
-// define('RCB_PRO_VERSION', 'https://devowl.io/go/real-cookie-banner?source=rcb-lite'); This constant is defined in the core class
+// Helpers
+define( 'RK_MOSTLY_PURE_JS_COOKIE_PLUGIN_URI', plugins_url( '', __FILE__ ) );
 
-// Check PHP Version and print notice if minimum not reached, otherwise start the plugin core
-require_once RCB_INC .
-    'base/others/' .
-    (version_compare(phpversion(), RCB_MIN_PHP, '>=') ? 'start.php' : 'fallback-php-version.php');
+// Enqueue the script 
+// 1 - for now, call the CDN and give it the highest priority
+// TODO: in a real thing, set up a build tool to do this, and bind the project via npm + config
+
+
+function rks_load_scripts() {	
+	wp_enqueue_script( 'cookie_consent_js', 'https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@v2.8.8/dist/cookieconsent.js', [], null, true );
+	wp_enqueue_script( 'cookie_consent_init_js', plugin_dir_url( __FILE__ ) . '/src/cookieconsent-init.js', ['cookie_consent_js'], null, true );    
+	wp_register_style( 'cookie_consent_css', 'https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@v2.8.8/dist/cookieconsent.css', false,  false);
+	wp_enqueue_style ( 'cookie_consent_css' );
+
+}
+add_action('wp_enqueue_scripts', 'rks_load_scripts');
+
+
+// 2 - this is the config file
